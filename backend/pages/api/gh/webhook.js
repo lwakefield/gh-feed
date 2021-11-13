@@ -14,8 +14,8 @@ export default async function handler(req, res) {
   const { data, error } = await supabase.from('gh_webhook_payloads')
     .insert([
       {
-        headers: JSON.stringify(req.headers),
-        body: JSON.stringify(req.body)
+        headers: req.headers,
+        body: req.body
       }
     ])
 
