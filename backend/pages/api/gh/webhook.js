@@ -1,0 +1,29 @@
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
+
+export default async function handler(req, res) {
+  if (req.method.toLowerCase() !== 'post') {
+    return res.status(404).end()
+  }
+
+  if (req.headers['content-type'] !== 'application/json') {
+    return res.status(400).end()
+  }
+
+  const { data, error } = await supabase.from('gh_webhook_payloads')
+    .insert([
+      {
+        headers: JSON.stringify(req.headers),
+        body: JSON.stringify(req.body)
+      }
+    ])
+
+  if (error) {
+    console.error(error)
+    return res.status(500).end()
+  }
+
+  console.log(`created id=${data[0].id}`)
+  res.status(201).end()
+}
