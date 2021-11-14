@@ -4,10 +4,17 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 
 export default async function handler(req, res) {
   if (req.method.toLowerCase() !== 'post') {
+    console.error('incorrect method')
     return res.status(404).end()
   }
 
   if (req.headers['content-type'] !== 'application/json') {
+    console.error('incorrect content-type')
+    return res.status(400).end()
+  }
+
+  if (typeof res.body !== 'object') {
+    console.error('incorrect body')
     return res.status(400).end()
   }
 
