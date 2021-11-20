@@ -1,4 +1,3 @@
-
 exports.up = async function(knex) {
   await knex.schema.raw(`
     create table gh_webhook_payloads (
