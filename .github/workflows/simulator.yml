@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '0,15,30,45 * * * *'
 defaults:
   run:
     working-directory: simulator
