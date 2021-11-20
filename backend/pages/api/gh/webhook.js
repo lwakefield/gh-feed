@@ -13,9 +13,9 @@ export default async function handler(req, res) {
     return res.status(400).end()
   }
 
-  if (typeof res.body !== 'object') {
-    console.error(`incorrect body: ${tyepof res.body}`)
-    return res.status(400).end()
+  if (typeof req.body !== 'object') {
+    console.error('incorrect body')
+    return req.status(400).end()
   }
 
   const { data, error } = await supabase.from('gh_webhook_payloads')
