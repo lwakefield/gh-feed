@@ -1,6 +1,8 @@
+name: 'Simulate GH Activity'
 on:
   schedule:
-    - cron: '0,15,30,45 * * * *'
+  - cron: "*/15 * * * *"
+
 defaults:
   run:
     working-directory: simulator
