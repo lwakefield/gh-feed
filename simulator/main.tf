@@ -1,3 +1,13 @@
+terraform {
+  backend "remote" {
+    organization = "lwak"
+
+    workspaces {
+      name = "gh-feed"
+    }
+  }
+}
+
 variable "gh_owner" {}
 variable "gh_token" {}
 
