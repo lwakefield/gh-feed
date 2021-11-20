@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   if (typeof res.body !== 'object') {
-    console.error('incorrect body')
+    console.error(`incorrect body: ${tyepof res.body}`)
     return res.status(400).end()
   }
 
