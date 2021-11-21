@@ -41,41 +41,34 @@ export default function Dashboard() {
       />
 
       <div className="grid grid-flow-row auto-rows-max grid-cols-12 gap-4">
-        <div className="col-span-12 font-bold" children="Pull Requests" />
+        <div className="col-span-12 font-bold">Pull Requests</div>
 
-        <div className="col-span-2 font-semibold" children="Merged At" />
-        <div className="col-span-5 font-semibold" children="PR Title" />
-        <div className="col-span-1 font-semibold" children="Merged By" />
-        <div className="col-span-1 font-semibold" children="Changes" />
-        <div className="col-span-1 font-semibold" children="Files" />
-        <div className="col-span-1 font-semibold" children="Comments" />
-        <div className="col-span-1 font-semibold" children="Time To Merge" />
+        <div className="col-span-2 font-semibold">Merged At</div>
+        <div className="col-span-5 font-semibold">PR Title</div>
+        <div className="col-span-1 font-semibold">Merged By</div>
+        <div className="col-span-1 font-semibold">Changes</div>
+        <div className="col-span-1 font-semibold">Files</div>
+        <div className="col-span-1 font-semibold">Comments</div>
+        <div className="col-span-1 font-semibold">Time To Merge</div>
 
         {prHistory.map(v =>
           <React.Fragment>
-            <div className="col-span-2" children={DateFns.format(new Date(v.merged_at), 'yyyy-MM-dd hh:mm aaa')} />
+            <div className="col-span-2">{DateFns.format(new Date(v.merged_at), 'yyyy-MM-dd hh:mm aaa')}</div>
             <a
               className="col-span-5"
               href={`https://github.com/${v.owned_by}/${v.repo_name}/pull/${v.pull_request_number}`}
-              children={v.pull_request_title}
-            />
-            <div className="col-span-1" children={v.merged_by} />
-            <div className="col-span-1" children={`+${v.num_lines_added}/-${v.num_lines_deleted}`} />
-            <div className="col-span-1" children={`${v.num_changed_files}`} />
-            <div className="col-span-1" children={`${v.num_comments}`} />
-            <div className="col-span-1" children={formatPsqlInterval(v.time_to_merge)} />
+            >{v.pull_request_title}</a>
+            <div className="col-span-1">{v.merged_by}</div>
+            <div className="col-span-1">{`+${v.num_lines_added}/-${v.num_lines_deleted}`}</div>
+            <div className="col-span-1">{`${v.num_changed_files}`}</div>
+            <div className="col-span-1">{`${v.num_comments}`}</div>
+            <div className="col-span-1">{formatPsqlInterval(v.time_to_merge)}</div>
           </React.Fragment>
         )}
       </div>
 
-      <Link
-        href={{ query: {...router.query, after: prHistory[0]?.merged_at} }}
-        children="Newer"
-      />
-      <Link
-        href={{ query: { ...router.query, before: prHistory[prHistory.length - 1]?.merged_at} }}
-        children="Older"
-      />
+      <Link href={{ query: {...router.query, after: prHistory[0]?.merged_at} }}>Newer</Link>
+      <Link href={{ query: { ...router.query, before: prHistory[prHistory.length - 1]?.merged_at} }}>Older</Link>
 
     </div>
   )

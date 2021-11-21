@@ -18,29 +18,20 @@ export default function StatsPerRepoPerWeek ({ repoStats, view }) {
     <div>
       <div className="grid grid-cols-3">
         <div className={`text-blue-500 ${view === 'merge_throughput' && 'underline'}`}>
-          <Link
-            href={{ query: { ...router.query, view: 'merge_throughput' } }}
-            children="Merge Throughput"
-          />
+          <Link href={{ query: { ...router.query, view: 'merge_throughput' } }}>Merge Throughput</Link>
         </div>
         <div className={`text-blue-500 ${view === 'p90_time_to_merge' && 'underline'}`}>
-          <Link
-            href={{ query: { ...router.query, view: 'p90_time_to_merge' } }}
-            children="p90 Time To Merge"
-          />
+          <Link href={{ query: { ...router.query, view: 'p90_time_to_merge' } }}>p90 Time To Merge</Link>
         </div>
         <div className={`text-blue-500 ${view === 'p50_time_to_merge' && 'underline'}`}>
-          <Link
-            href={{ query: { ...router.query, view: 'p50_time_to_merge' } }}
-            children="p50 Time To Merge"
-          />
+          <Link href={{ query: { ...router.query, view: 'p50_time_to_merge' } }}>p50 Time To Merge</Link>
         </div>
       </div>
 
       <div className="grid" style={{gridTemplateColumns: `repeat(${backbone.length + 2}, 100px)`}}>
-        <div className="col-start-1 col-span-2" children="" />
+        <div className="col-start-1 col-span-2">&nbsp;</div>
         {backbone.map((v) =>
-          <div className="font-bold" children={DateFns.format(v, 'yyyy/MM/dd')} />
+          <div className="font-bold">{DateFns.format(v, 'yyyy/MM/dd')}</div>
         )}
         {repoStats.map((repo, repoIdx) =>
           <React.Fragment>
@@ -48,10 +39,7 @@ export default function StatsPerRepoPerWeek ({ repoStats, view }) {
               className="font-bold col-start-1 col-span-2"
               style={{ gridRowStart: 3 + repoIdx }}
             >
-              <Link
-                href={`/${repo.owned_by}/${repo.repo_name}`}
-                children={`${repo.owned_by}/${repo.repo_name}`}
-              />
+              <Link href={`/${repo.owned_by}/${repo.repo_name}`}>{`${repo.owned_by}/${repo.repo_name}`}</Link>
             </div>
             {repo.stats.map(stats =>
             <div
@@ -60,8 +48,9 @@ export default function StatsPerRepoPerWeek ({ repoStats, view }) {
                 gridRowStart: 3 + repoIdx,
                 gridColumnStart: 3 + DateFns.differenceInWeeks(new Date(stats.date), backbone[0])
               }}
-              children={views[view].val(stats)}
-            />
+            >
+              {views[view].val(stats)}
+            </div>
             )}
           </React.Fragment>
         )}

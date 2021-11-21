@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <React.Fragment>
       <Header />
-      <Link href="/dashboard" children="Dashboard" />
+      <Link href="/dashboard">Dashboard</Link>
     </React.Fragment>
   )
 }
