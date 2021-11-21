@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 import Header from 'components/header'
 import StatsPerRepoPerWeek from 'components/stats_per_repo_per_week'
-import { getBackBone, formatPsqlInterval } from 'lib/utils'
+import { getBackBone, formatInterval } from 'lib/utils'
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_CLIENT_KEY)
 
@@ -62,7 +62,7 @@ export default function Dashboard() {
             <div className="col-span-1">{`+${v.num_lines_added}/-${v.num_lines_deleted}`}</div>
             <div className="col-span-1">{`${v.num_changed_files}`}</div>
             <div className="col-span-1">{`${v.num_comments}`}</div>
-            <div className="col-span-1">{formatPsqlInterval(v.time_to_merge)}</div>
+            <div className="col-span-1">{ formatInterval(new Date(v.merged_at), new Date(v.opened_at)) }</div>
           </React.Fragment>
         )}
       </div>
@@ -75,7 +75,7 @@ export default function Dashboard() {
 }
 
 async function loadPrTimeToMergePerRepoPerWeek (org_slug, repo_slug) {
-  const res = await supabase.from('v2_pr_stats_per_repo_per_day')
+  const res = await supabase.from('v2_pr_stats_per_repo_per_week')
     .select()
     .eq('owned_by', org_slug)
     .eq('repo_name', repo_slug)
@@ -85,7 +85,7 @@ async function loadPrTimeToMergePerRepoPerWeek (org_slug, repo_slug) {
 }
 
 async function loadPrHistoryPage (org_slug, repo_slug, merged_after='-infinity', merged_before='infinity') {
-  const res = await supabase.from('v1_time_to_merge')
+  const res = await supabase.from('v2_merged_pull_requests')
     .select()
     .eq('owned_by', org_slug)
     .eq('repo_name', repo_slug)

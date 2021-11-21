@@ -26,4 +26,10 @@ export function formatPsqlInterval (interval) {
     .replace(' days', 'd')
 }
 
-
+export function formatInterval (start, stop) {
+  return DateFns.formatDuration({ seconds: (start - stop) / 1000 })
+    .replace(' seconds', 's')
+    .replace(' minutes', 'm')
+    .replace(' hours', 'h')
+    .replace(' days', 'd')
+}

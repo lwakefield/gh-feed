@@ -14,9 +14,9 @@ exports.up = async function(knex) {
       limit 1
     );
 
-    -- alter table v2_merged_pull_requests
-    --   alter column opened_by set not null,
-    --   alter column opened_at set not null;
+    alter table v2_merged_pull_requests
+      alter column opened_by set not null,
+      alter column opened_at set not null;
   `)
 };
 
