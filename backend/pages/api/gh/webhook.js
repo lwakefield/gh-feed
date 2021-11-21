@@ -77,6 +77,8 @@ async function maybeAddMergedPr (req) {
         repo_name:           req.body.repository.name,
         pull_request_number: req.body.pull_request.number,
         pull_request_title:  req.body.pull_request.title,
+        opened_at:           req.body.pull_request.created_at,
+        opened_by:           req.body.pull_request.user.login,
         merged_at:           req.body.pull_request.merged_at,
         merged_by:           req.body.sender.login,
         num_commits:         req.body.pull_request.commits,

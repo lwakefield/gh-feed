@@ -75,7 +75,7 @@ export default function Dashboard() {
 }
 
 async function loadPrTimeToMergePerRepoPerWeek (org_slug, repo_slug) {
-  const res = await supabase.from('v1_pr_stats_per_repo_per_day')
+  const res = await supabase.from('v2_pr_stats_per_repo_per_day')
     .select()
     .eq('owned_by', org_slug)
     .eq('repo_name', repo_slug)

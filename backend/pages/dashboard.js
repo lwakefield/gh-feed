@@ -33,7 +33,8 @@ export default function Dashboard() {
 }
 
 async function loadPrStatsPerWeek () {
-  const res = await supabase.from('v1_pr_stats_per_repo_per_week').select().order('owned_by').order('repo_name')
+  const res = await supabase.from('v2_pr_stats_per_repo_per_week').select().order('owned_by').order('repo_name')
+  console.log(res)
   if (res.error !== null) throw res.error;
 
   return res.data;

@@ -6,6 +6,7 @@ exports.up = async function(knex) {
       owned_by            text not null,
       repo_name           text not null,
       pull_request_number int not null,
+      pull_request_title  text not null,
       opened_by           text not null,
       opened_at           timestamptz not null
     );
@@ -21,6 +22,7 @@ exports.up = async function(knex) {
       owned_by            text not null,
       repo_name           text not null,
       pull_request_number int not null,
+      pull_request_title  text not null,
       merged_by           text not null,
       merged_at           timestamptz not null,
       num_commits         int not null,
