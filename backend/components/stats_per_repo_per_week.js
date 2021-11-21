@@ -13,7 +13,6 @@ export default function StatsPerRepoPerWeek ({ repoStats, view }) {
     p50_time_to_merge: { val: v => formatPsqlInterval(v.p50_time_to_merge), title: 'p50 Time To Merge' },
     p90_time_to_merge: { val: v => formatPsqlInterval(v.p90_time_to_merge), title: 'p90 Time To Merge' }
   }
-  // we want to change the "a" into Links but next/link is annoying and gets in the way
   return (
     <div>
       <div className="grid grid-cols-3">

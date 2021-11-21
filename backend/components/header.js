@@ -1,7 +1,7 @@
 import React from 'react'
 import * as DateFns from 'date-fns'
 
-import supabase from '../lib/supabase'
+import supabase from 'lib/supabase'
 
 export default function Header() {
   React.useEffect(() => {
