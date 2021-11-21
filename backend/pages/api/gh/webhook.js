@@ -18,6 +18,19 @@ export default async function handler(req, res) {
     return req.status(400).end()
   }
 
+  try {
+    await addToPayloads(req)
+    await maybeAddOpenedPr(req)
+    await maybeAddMergedPr(req)
+  } catch (e) {
+    console.log(e)
+    return res.status(500).end()
+  }
+
+  res.status(201).end()
+}
+
+async function addToPayloads (req) {
   const { data, error } = await supabase.from('gh_webhook_payloads')
     .insert([
       {
@@ -26,11 +39,53 @@ export default async function handler(req, res) {
       }
     ])
 
-  if (error) {
-    console.error(error)
-    return res.status(500).end()
-  }
+  if (error) throw error
 
-  console.log(`created id=${data[0].id}`)
-  res.status(201).end()
+  console.log(`created gh_webhook_payloads.id=${data[0].id}`)
+}
+
+async function maybeAddOpenedPr (req) {
+  if (req.headers['x-github-event'] !== 'pull_request') return
+  if (req.body.action !== 'opened') return
+
+  const { data, error } = await supabase.from('v2_opened_pull_requests')
+    .insert([
+      {
+        owned_by:            req.body.repository.owner.login,
+        repo_name:           req.body.repository.name,
+        pull_request_number: req.body.pull_request.number,
+        opened_by:           req.body.pull_request.created_at,
+        opened_at:           req.sender.login
+      }
+    ])
+
+  if (error) throw error
+
+  console.log(`created v2_opened_pull_requests.id=${data[0].id}`)
+}
+
+async function maybeAddMergedPr (req) {
+  if (req.headers['x-github-event'] !== 'pull_request') return
+  if (req.body.action !== 'closed') return
+  if (req.body.pull_request.merged !== true) return
+
+  const { data, error } = await supabase.from('v2_merged_pull_requests')
+    .insert([
+      {
+        owned_by:            req.body.repository.owner.login,
+        repo_name:           req.body.repository.name,
+        pull_request_number: req.body.pull_request.number,
+        merged_by:           req.body.pull_request.merged_at,
+        merged_at:           req.sender.login,
+        num_commits:         req.pull_request.commits,
+        num_lines_added:     req.pull_request.additions,
+        num_lines_deleted:   req.pull_request.deletions,
+        num_changed_files:   req.pull_request.changed_files,
+        num_comments:        req.pull_request.comments,
+      }
+    ])
+
+  if (error) throw error
+
+  console.log(`created v2_merged_pull_requests.id=${data[0].id}`)
 }
