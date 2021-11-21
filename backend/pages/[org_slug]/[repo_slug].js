@@ -52,7 +52,7 @@ export default function Dashboard() {
         <div className="col-span-1 font-semibold">Time To Merge</div>
 
         {prHistory.map(v =>
-          <React.Fragment>
+          <React.Fragment key={`${v.owned_by}/${v.repo_name}/pull/${v.pull_request_number}`}>
             <div className="col-span-2">{DateFns.format(new Date(v.merged_at), 'yyyy-MM-dd hh:mm aaa')}</div>
             <a
               className="col-span-5"

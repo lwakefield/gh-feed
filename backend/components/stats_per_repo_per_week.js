@@ -31,10 +31,10 @@ export default function StatsPerRepoPerWeek ({ repoStats, view }) {
       <div className="grid" style={{gridTemplateColumns: `repeat(${backbone.length + 2}, 100px)`}}>
         <div className="col-start-1 col-span-2">&nbsp;</div>
         {backbone.map((v) =>
-          <div className="font-bold">{DateFns.format(v, 'yyyy/MM/dd')}</div>
+          <div className="font-bold" key={v}>{DateFns.format(v, 'yyyy/MM/dd')}</div>
         )}
         {repoStats.map((repo, repoIdx) =>
-          <React.Fragment>
+          <React.Fragment key={`/${repo.owned_by}/${repo.repo_name}`}>
             <div
               className="font-bold col-start-1 col-span-2"
               style={{ gridRowStart: 3 + repoIdx }}
@@ -43,7 +43,7 @@ export default function StatsPerRepoPerWeek ({ repoStats, view }) {
             </div>
             {repo.stats.map(stats =>
             <div
-              className=""
+              key={stats.date}
               style={{
                 gridRowStart: 3 + repoIdx,
                 gridColumnStart: 3 + DateFns.differenceInWeeks(new Date(stats.date), backbone[0])
