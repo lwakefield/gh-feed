@@ -16,7 +16,7 @@ export default function StatsPerRepoPerWeek ({ repoStats, view }) {
   // we want to change the "a" into Links but next/link is annoying and gets in the way
   return (
     <div>
-      <div class="grid grid-cols-3">
+      <div className="grid grid-cols-3">
         <div className={`text-blue-500 ${view === 'merge_throughput' && 'underline'}`}>
           <Link
             href={{ query: { ...router.query, view: 'merge_throughput' } }}
@@ -37,15 +37,15 @@ export default function StatsPerRepoPerWeek ({ repoStats, view }) {
         </div>
       </div>
 
-      <div class="grid" style={{gridTemplateColumns: `repeat(${backbone.length + 2}, 100px)`}}>
-        <div class="col-start-1 col-span-2" children="" />
+      <div className="grid" style={{gridTemplateColumns: `repeat(${backbone.length + 2}, 100px)`}}>
+        <div className="col-start-1 col-span-2" children="" />
         {backbone.map((v) =>
-          <div class="font-bold" children={DateFns.format(v, 'yyyy/MM/dd')} />
+          <div className="font-bold" children={DateFns.format(v, 'yyyy/MM/dd')} />
         )}
         {repoStats.map((repo, repoIdx) =>
           <React.Fragment>
             <div
-              class="font-bold col-start-1 col-span-2"
+              className="font-bold col-start-1 col-span-2"
               style={{ gridRowStart: 3 + repoIdx }}
             >
               <Link
@@ -55,7 +55,7 @@ export default function StatsPerRepoPerWeek ({ repoStats, view }) {
             </div>
             {repo.stats.map(stats =>
             <div
-              class=""
+              className=""
               style={{
                 gridRowStart: 3 + repoIdx,
                 gridColumnStart: 3 + DateFns.differenceInWeeks(new Date(stats.date), backbone[0])

@@ -40,26 +40,30 @@ export default function Dashboard() {
         view={router.query.view || 'merge_throughput'}
       />
 
-      <div class="grid grid-flow-row auto-rows-max grid-cols-12 gap-4">
-        <div class="col-span-12 font-bold" children="Pull Requests" />
+      <div className="grid grid-flow-row auto-rows-max grid-cols-12 gap-4">
+        <div className="col-span-12 font-bold" children="Pull Requests" />
 
-        <div class="col-span-3 font-semibold" children="Merged At" />
-        <div class="col-span-3 font-semibold" children="PR Title" />
-        <div class="col-span-2 font-semibold" children="Opened By" />
-        <div class="col-span-2 font-semibold" children="Closed By" />
-        <div class="col-span-2 font-semibold" children="Time To Merge" />
+        <div className="col-span-2 font-semibold" children="Merged At" />
+        <div className="col-span-5 font-semibold" children="PR Title" />
+        <div className="col-span-1 font-semibold" children="Merged By" />
+        <div className="col-span-1 font-semibold" children="Changes" />
+        <div className="col-span-1 font-semibold" children="Files" />
+        <div className="col-span-1 font-semibold" children="Comments" />
+        <div className="col-span-1 font-semibold" children="Time To Merge" />
 
         {prHistory.map(v =>
           <React.Fragment>
-            <div class="col-span-3" children={v.merged_at} />
+            <div className="col-span-2" children={DateFns.format(new Date(v.merged_at), 'yyyy-MM-dd hh:mm aaa')} />
             <a
-              class="col-span-3"
+              className="col-span-5"
               href={`https://github.com/${v.owned_by}/${v.repo_name}/pull/${v.pull_request_number}`}
               children={v.pull_request_title}
             />
-            <div class="col-span-2" children={v.opened_by} />
-            <div class="col-span-2" children={v.merged_by} />
-            <div class="col-span-2" children={formatPsqlInterval(v.time_to_merge)} />
+            <div className="col-span-1" children={v.merged_by} />
+            <div className="col-span-1" children={`+${v.num_lines_added}/-${v.num_lines_deleted}`} />
+            <div className="col-span-1" children={`${v.num_changed_files}`} />
+            <div className="col-span-1" children={`${v.num_comments}`} />
+            <div className="col-span-1" children={formatPsqlInterval(v.time_to_merge)} />
           </React.Fragment>
         )}
       </div>
