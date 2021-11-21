@@ -54,8 +54,8 @@ async function maybeAddOpenedPr (req) {
         owned_by:            req.body.repository.owner.login,
         repo_name:           req.body.repository.name,
         pull_request_number: req.body.pull_request.number,
-        opened_by:           req.body.pull_request.created_at,
-        opened_at:           req.body.sender.login
+        opened_at:           req.body.pull_request.created_at,
+        opened_by:           req.body.sender.login
       }
     ])
 
@@ -75,8 +75,8 @@ async function maybeAddMergedPr (req) {
         owned_by:            req.body.repository.owner.login,
         repo_name:           req.body.repository.name,
         pull_request_number: req.body.pull_request.number,
-        merged_by:           req.body.pull_request.merged_at,
-        merged_at:           req.body.sender.login,
+        merged_at:           req.body.pull_request.merged_at,
+        merged_by:           req.body.sender.login,
         num_commits:         req.body.pull_request.commits,
         num_lines_added:     req.body.pull_request.additions,
         num_lines_deleted:   req.body.pull_request.deletions,
