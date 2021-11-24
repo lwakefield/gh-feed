@@ -1,14 +1,11 @@
 import React from 'react'
-import * as DateFns from 'date-fns'
 
 import supabase from 'lib/supabase'
+import { WhiteLink as Link } from 'components/link'
 
 export default function Header() {
   React.useEffect(() => {
     window.supabase = supabase
-    console.log(supabase.auth.user())
-    console.log(supabase.auth.session())
-    console.log(fetch)
 
     supabase.auth.onAuthStateChange((event, session) => {
       console.log(event, session)
@@ -24,17 +21,25 @@ export default function Header() {
   }, [ ])
 
   return (
-    <div className="bg-gray-100 p-2 mb-5 grid col-12">
-      { !supabase.auth.user() &&
-      <button onClick={login} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded col-start-12">
-        Log in
-      </button>
-      }
-      { supabase.auth.user() &&
-        <button onClick={logout} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">
-          Log out
+    <div className="p-2 mb-5 bg-blue-500">
+      <div className="max-w-screen-2xl mx-auto grid items-center col-12">
+        { !supabase.auth.user() &&
+          <Link className="text-white" href="/">About</Link>
+        }
+        { supabase.auth.user() &&
+          <Link className="text-white" href="/dashboard">Dashboard</Link>
+        }
+        { !supabase.auth.user() &&
+        <button onClick={login} className="text-white font-bold py-1 px-2 col-start-12">
+          Log in
         </button>
-      }
+        }
+        { supabase.auth.user() &&
+          <button onClick={logout} className="text-white font-bold py-1 px-2 col-start-12">
+            Log out
+          </button>
+        }
+      </div>
     </div>
   )
 }
@@ -46,7 +51,7 @@ async function login (e) {
     provider: 'github',
     scopes: 'user'
   }, {
-    // redirectTo: window.location.origin + '/api/postlogin'
+    redirectTo: window.location.origin + '/dashboard'
   })
   console.log(user, session, error)
 }
@@ -55,6 +60,5 @@ async function logout (e) {
   e.preventDefault()
   e.stopPropagation()
   const { error } = await supabase.auth.signOut()
-  console.log(user, session, error)
-  window.location.reload()
+  window.location = '/'
 }

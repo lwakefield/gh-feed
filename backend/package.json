@@ -5,11 +5,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@supabase/supabase-js": "^1.27.0",
-    "autoprefixer": "^10.4.0",
     "cookie": "^0.4.1",
     "date-fns": "^2.26.0",
     "dotenv": "^10.0.0",
@@ -17,13 +18,20 @@
     "knex": "^0.95.14",
     "next": "12.0.3",
     "pg": "^8.7.1",
-    "postcss": "^8.3.11",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "tailwindcss": "^2.2.19"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@storybook/addon-actions": "^6.3.12",
+    "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-links": "^6.3.12",
+    "@storybook/react": "^6.3.12",
+    "autoprefixer": "^10.4.0",
+    "babel-loader": "^8.2.3",
     "eslint": "7",
-    "eslint-config-next": "12.0.3"
+    "eslint-config-next": "12.0.3",
+    "postcss": "^8.3.11"
   }
 }
