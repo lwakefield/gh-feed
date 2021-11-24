@@ -18,11 +18,11 @@ export default async function handler(req, res) {
 
   const body = (await buffer(req)).toString()
   req.body = JSON.parse(body)
-  const hash = createHmac('sha256', process.env.GH_WEBHOOK_SECRET)
+  const hash = 'sha256=' + createHmac('sha256', process.env.GH_WEBHOOK_SECRET)
                .update(body)
                .digest('hex');
   if (hash !== req.headers['x-hub-signature-256']) {
-    console.error('bad signature')
+    console.error(`bad signature req.headers['x-hub-signature-256']=${req.headers['x-hub-signature-256']} hash=${hash}}`)
     return res.status(403).end()
   }
 
