@@ -8,12 +8,13 @@ export default function Header() {
     window.supabase = supabase
 
     supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session)
       if (event === 'SIGNED_IN') {
         fetch('/api/syncauth', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ session })
+        }).then(v => {
+          window.location = '/dashboard'
         })
       }
     })
@@ -65,9 +66,8 @@ async function login (e) {
     provider: 'github',
     scopes: 'user'
   }, {
-    redirectTo: window.location.origin + '/dashboard'
+    redirectTo: window.location.origin
   })
-  console.log(user, session, error)
 }
 
 async function logout (e) {

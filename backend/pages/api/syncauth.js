@@ -14,8 +14,10 @@ export default async function handler(req, res) {
     path: '/'
   }
 
-  res.setHeader('set-cookie', serialize('gh_token', req.body.session.provider_token, options))
-  res.setHeader('set-cookie', serialize('sb_token', req.body.session.access_token, options))
+  res.setHeader('set-cookie', [
+    serialize('gh_token', req.body.session.provider_token, options),
+    serialize('sb_token', req.body.session.access_token, options)
+  ])
 
   await sync_all_memberships(req.body.session)
 

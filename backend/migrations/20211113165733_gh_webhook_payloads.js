@@ -6,6 +6,9 @@ exports.up = async function(knex) {
       headers    jsonb not null,
       body       jsonb not null
     );
+    create index on gh_webhook_payloads using gin ( headers );
+    create index on gh_webhook_payloads using gin ( body );
+    create index on gh_webhook_payloads using gin (( body #> '{repository,owner,login}' ));
   `)
 };
 

@@ -8,20 +8,29 @@ exports.up = async function(knex) {
       body#>>'{repository,name}' as repo_name,
       body#>>'{sender,login}' as opened_by,
       now() - cast(body#>>'{pull_request,created_at}' as timestamptz) as open_for
-    from gh_webhook_payloads where
-      headers->>'x-github-event' = 'pull_request'
-      and body->>'action' = 'opened'
-      and exists(
-        select 1 from gh_org_memberships
-        where
-          (auth.uid()  = gh_org_memberships.user_id or user='postgres')
-          and body#>>'{repository,owner,login}' = any(gh_org_memberships.org_slugs)
-      );
+    from gh_webhook_payloads
+    left join gh_org_memberships
+      on body#>'{repository,owner,login}' \\?& gh_org_memberships.org_slugs
+      and (auth.uid() = gh_org_memberships.user_id or user='postgres')
+    where
+      headers @> '{"x-github-event": "pull_request"}'
+      and body @> '{"action": "opened"}';
+      -- and exists(
+      --   select 1 from gh_org_memberships
+      --   where
+      --     (auth.uid()  = gh_org_memberships.user_id or user='postgres')
+      --     and body#>'{repository,owner,login}' \\?& gh_org_memberships.org_slugs
+      -- );
 
     create or replace view v1_merged_pull_requests as select
       cast(body#>>'{pull_request,number}' as int) as pull_request_number,
       body#>>'{pull_request,title}' as pull_request_title,
       cast(body#>>'{pull_request,merged_at}' as timestamptz) as merged_at,
+      cast(body#>>'{pull_request,commits}' as int) as num_commits,
+      cast(body#>>'{pull_request,additions}' as int) as num_lines_added,
+      cast(body#>>'{pull_request,deletions}' as int) as num_lines_deleted,
+      cast(body#>>'{pull_request,changed_files}' as int) as num_changed_files,
+      cast(body#>>'{pull_request,comments}' as int) as num_comments,
       body#>>'{repository,owner,login}' as owned_by,
       body#>>'{repository,name}' as repo_name,
       body#>>'{sender,login}' as merged_by
@@ -42,6 +51,11 @@ exports.up = async function(knex) {
         v1_opened_pull_requests.pull_request_title,
         v1_opened_pull_requests.owned_by,
         v1_opened_pull_requests.repo_name,
+        num_commits,
+        num_lines_added,
+        num_lines_deleted,
+        num_changed_files,
+        num_comments,
         opened_by,
         merged_by,
         opened_at,
