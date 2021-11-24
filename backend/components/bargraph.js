@@ -48,10 +48,10 @@ export default function BarGraph ({
             stroke="black"
           />*/}
           <text
-            text-anchor="middle"
+            textAnchor="middle"
             x={paddingX + (idx) * (barwidth + bargap) + (barwidth + bargap)/2}
             y={label_offset + 15}
-            font-size={8}
+            fontSize={8}
           >{v}</text>
         </React.Fragment>
       )}

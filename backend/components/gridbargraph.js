@@ -14,7 +14,7 @@ export default function GridBarGraph ({ x_labels, series, parseValue }) {
         />
       </div>
       {series.map((s) =>
-        <div key={s.name} class="flex">
+        <div key={s.name} className="flex">
           <div
             className="font-bold sticky items-end left-0 bg-white text-right px-2 z-10 border-r border-gray-200"
             style={{ width: '200px' }}

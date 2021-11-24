@@ -22,7 +22,7 @@ export default function BarGraph() {
       <div className="max-w-screen-2xl mx-auto grid col-12 p-2">
 
         <Card title="Series Title" className="overflow-hidden">
-          <div class="overflow-scroll">
+          <div className="overflow-scroll">
             <_BarGraph x_labels={x_labels} values={series[0].values} maxbarheight={25} />
           </div>
         </Card>
