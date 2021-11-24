@@ -16,11 +16,6 @@ export default async function handler(req, res) {
     return res.status(400).end()
   }
 
-  if (typeof req.body !== 'object') {
-    console.error('incorrect body')
-    return res.status(400).end()
-  }
-
   const body = (await buffer(req)).toString()
   req.body = JSON.parse(body)
   const hash = createHmac('sha256', process.env.GH_WEBHOOK_SECRET)
