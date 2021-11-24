@@ -27,7 +27,7 @@ export default function Dashboard({ prStatsPerRepoPerWeek }) {
 
       <div className="max-w-screen-2xl mx-auto grid col-12 p-2">
 
-        <div class="flex justify-end">
+        <div className="flex justify-end">
           <span className="font-semibold mr-2">View:</span>
           <Link className={`mr-2 ${view === 'table' && 'underline'}`} href={{ query: {...router.query, view: 'table'} }}>Table</Link>
           <Link className={`     ${view === 'graph' && 'underline'}`} href={{ query: { ...router.query, view: 'graph'} }}>Graph</Link>

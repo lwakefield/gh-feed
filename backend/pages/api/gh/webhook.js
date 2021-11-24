@@ -1,3 +1,4 @@
+import { buffer } from 'micro';
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
@@ -15,7 +16,17 @@ export default async function handler(req, res) {
 
   if (typeof req.body !== 'object') {
     console.error('incorrect body')
-    return req.status(400).end()
+    return res.status(400).end()
+  }
+
+  const body = (await buffer(req)).toString()
+  req.body = JSON.parse(body)
+  const hash = createHmac('sha256', process.env.GH_WEBHOOK_SECRET)
+               .update(body)
+               .digest('hex');
+  if (hash !== req.headers['x-hub-signature-256']) {
+    console.error('bad signature')
+    return res.status(403).end()
   }
 
   try {
@@ -93,3 +104,9 @@ async function maybeAddMergedPr (req) {
 
   console.log(`created v2_merged_pull_requests.id=${data[0].id}`)
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

@@ -22,22 +22,36 @@ export default function Header() {
 
   return (
     <div className="p-2 mb-5 bg-blue-500">
-      <div className="max-w-screen-2xl mx-auto grid items-center col-12">
+      <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
         { !supabase.auth.user() &&
-          <Link className="text-white" href="/">About</Link>
+        <React.Fragment>
+          <div>
+            <Link className="text-white" href="/">About</Link>
+          </div>
+          <div>
+            <Link className="text-white" href={`https://github.com/apps/${process.env.NEXT_PUBLIC_GH_APP_NAME}/installations/new`}>
+              Install
+            </Link>
+            <button onClick={login} className="text-white font-bold py-1 px-2">
+              Log in
+            </button>
+          </div>
+        </React.Fragment>
         }
         { supabase.auth.user() &&
-          <Link className="text-white" href="/dashboard">Dashboard</Link>
-        }
-        { !supabase.auth.user() &&
-        <button onClick={login} className="text-white font-bold py-1 px-2 col-start-12">
-          Log in
-        </button>
-        }
-        { supabase.auth.user() &&
-          <button onClick={logout} className="text-white font-bold py-1 px-2 col-start-12">
-            Log out
-          </button>
+          <React.Fragment>
+            <div>
+              <Link className="text-white" href="/dashboard">Dashboard</Link>
+            </div>
+            <div>
+              <Link className="text-white" href={`https://github.com/apps/${process.env.NEXT_PUBLIC_GH_APP_NAME}/installations/new`}>
+                Install
+              </Link>
+              <button onClick={logout} className="text-white font-bold py-1 px-2">
+                Log out
+              </button>
+            </div>
+          </React.Fragment>
         }
       </div>
     </div>
