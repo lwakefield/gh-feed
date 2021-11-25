@@ -21,6 +21,23 @@ export default function Dashboard({ prStatsPerRepoPerWeek }) {
 
   const view = router.query.view || 'graph'
 
+  if (prStatsPerRepoPerWeek.length === 0) {
+    return (
+      <div>
+        <Header />
+
+        <div className="max-w-screen-2xl mx-auto grid col-12 p-2">
+          <div className="text-3xl">
+            Get started by&nbsp;
+            <Link className="text-white" href={`https://github.com/apps/${process.env.NEXT_PUBLIC_GH_APP_NAME}/installations/new`}>
+              installing the PR Stats GitHub App
+            </Link>.
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div>
       <Header />
